@@ -1,0 +1,94 @@
+BhoomiMitra - Circuit Diagram Documentation
+===========================================
+
+This file provides textual descriptions of the circuit connections for the BhoomiMitra project.
+Actual circuit diagrams should be created using tools like Fritzing, EasyEDA, or similar software.
+
+1. ESP32 + Soil Moisture Sensors + Relay Module Circuit
+-------------------------------------------------------
+
+ESP32 Connections:
+- 3.3V pin connects to VCC of all soil moisture sensors
+- GND pin connects to GND of all soil moisture sensors and relay module
+- GPIO pins 34, 35, 32, 33, 25, 26, 27, 14, 12 connect to AO (analog output) pins of the 9 soil moisture sensors
+- GPIO pins 23, 22, 21, 19, 18, 5, 4, 2, 15 connect to IN1-IN9 pins of the relay module
+- 5V pin connects to VCC of relay module
+
+Relay Module Connections:
+- VCC connects to ESP32 5V
+- GND connects to ESP32 GND
+- IN1-IN9 connect to ESP32 GPIO pins as listed above
+- COM1-COM9 connect to positive terminal of power supply
+- NO1-NO9 (Normally Open) connect to positive terminal of each water pump
+
+Water Pump Connections:
+- Positive terminal of each pump connects to corresponding NO terminal on relay
+- Negative terminal of all pumps connect to negative terminal of power supply
+
+Power Supply:
+- 5V/12V power supply positive terminal connects to relay COM terminals
+- Power supply negative terminal connects to negative terminal of all pumps
+- Separate 5V USB power supply for ESP32
+
+2. Swarm Robot Circuit (Leader Bot, Verifier Bot, Fixer Bot)
+-----------------------------------------------------------
+
+Each robot has similar connections:
+
+Raspberry Pi / Control Board Connections:
+- GPIO pins 17, 18, 22, 23 connect to IN1, IN2, IN3, IN4 of L298N motor driver
+- GPIO pins 24, 25 connect to TRIG, ECHO of front ultrasonic sensor
+- GPIO pins 27, 4 connect to TRIG, ECHO of rear ultrasonic sensor
+- GPIO pin 12 connects to signal pin of servo motor (for seed dispenser)
+- 5V pin connects to VCC of ultrasonic sensors
+- GND pin connects to GND of all components
+- Camera module connects to camera interface
+
+L298N Motor Driver Connections:
+- IN1, IN2, IN3, IN4 connect to Raspberry Pi GPIO pins as listed above
+- OUT1, OUT2 connect to left motor
+- OUT3, OUT4 connect to right motor
+- 12V connects to battery positive terminal
+- GND connects to battery negative terminal and Raspberry Pi GND
+
+Ultrasonic Sensor Connections:
+- VCC connects to Raspberry Pi 5V
+- GND connects to Raspberry Pi GND
+- TRIG, ECHO connect to Raspberry Pi GPIO pins as listed above
+
+Servo Motor (Seed Dispenser) Connections:
+- Signal pin connects to Raspberry Pi GPIO pin 12
+- VCC connects to 5V
+- GND connects to GND
+
+3. Drone Integration (Conceptual)
+--------------------------------
+
+The drone would typically have its own control system, but it can be integrated with:
+- Raspberry Pi or ESP32 with camera module
+- GPS module for position tracking
+- Communication module (WiFi/RF) to send data to the main system
+- Thermal camera module connected to the processing unit
+
+4. ArUco Marker System
+---------------------
+
+ArUco markers are printed patterns placed around the field to help robots with:
+- Position identification
+- Navigation waypoints
+- Field boundary marking
+
+5. Power Management
+------------------
+
+- Main control system: 5V USB power adapter or power bank
+- Irrigation system: 12V power supply for pumps
+- Robots: 12V LiPo batteries
+- Drone: LiPo battery (typically 11.1V or 14.8V)
+
+Notes:
+- All GND connections should be common
+- Use appropriate voltage regulators where needed
+- Add capacitors near motors to reduce noise
+- Consider adding fuses for safety
+- Water-resistant enclosures should be used for outdoor components
