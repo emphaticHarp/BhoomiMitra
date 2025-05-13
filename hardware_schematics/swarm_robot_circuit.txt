@@ -1,0 +1,134 @@
+Swarm Robot Circuit Diagram (Leader Bot, Verifier Bot, Fixer Bot)
+===========================================================
+
+```
+                                 +---------------------+
+                                 |                     |
+                                 |    Raspberry Pi     |
+                                 |                     |
++------------------+             |                     |
+|                  |             |                     |
+| 5V Power Supply  |----+-------|5V               GND |-------+
+|                  |    |       |                     |       |
++------------------+    |       |                     |       |
+                        |       |                     |       |
+                        |       | GPIO17         GPIO24 |     |
+                        |       | GPIO18         GPIO25 |     |
+                        |       | GPIO22         GPIO27 |     |
+                        |       | GPIO23         GPIO4  |     |
+                        |       | GPIO12              |       |
+                        |       |                     |       |
+                        |       | Camera Interface    |       |
+                        |       |                     |       |
+                        |       +---------------------+       |
+                        |                                     |
+                        |                                     |
++------------------+    |       +---------------------+       |
+|                  |    |       |                     |       |
+| Camera Module    |------------|                     |       |
+|                  |            |                     |       |
++------------------+            +---------------------+       |
+                                                              |
+                                +---------------------+       |
+                                |                     |       |
++------------------+            |    L298N Motor      |       |
+|                  |            |    Driver           |       |
+| 12V Battery      |----+-------|12V              GND |-------+
+|                  |    |       |                     |       |
++------------------+    |       | IN1             OUT1|---+   |
+                        |       | IN2             OUT2|---+   |
+                        |       | IN3             OUT3|---+   |
+                        |       | IN4             OUT4|---+   |
+                        |       |                     |   |   |
+                        |       +---------------------+   |   |
+                        |                                 |   |
+                        |                                 |   |
++------------------+    |                                 |   |
+|                  |    |       +---------------------+   |   |
+| Left Motor       |    |       |                     |   |   |
+|                  |------------| +               -   |---+   |
++------------------+            |                     |       |
+                                +---------------------+       |
+                                                              |
++------------------+                                          |
+|                  |            +---------------------+       |
+| Right Motor      |            |                     |       |
+|                  |------------| +               -   |-------+
++------------------+            |                     |
+                                +---------------------+
+
+                                +---------------------+
+                                |                     |
+                                | Ultrasonic Sensor   |
+                                | (Front)             |
++------------------+            |                     |
+|                  |    +-------|VCC              GND |-------+
+| 5V from Pi       |    |       |                     |       |
+|                  |    |       | TRIG            ECHO|       |
++------------------+    |       |                     |       |
+                        |       +---------------------+       |
+                        |                                     |
+                        |       +---------------------+       |
+                        |       |                     |       |
+                        |       | Ultrasonic Sensor   |       |
+                        |       | (Rear)              |       |
+                        |       |                     |       |
+                        +-------|VCC              GND |-------+
+                                |                     |
+                                | TRIG            ECHO|
+                                |                     |
+                                +---------------------+
+
+                                +---------------------+
+                                |                     |
+                                | Servo Motor         |
+                                | (Seed Dispenser)    |
++------------------+            |                     |
+|                  |    +-------|VCC              GND |-------+
+| 5V from Pi       |    |       |                     |       |
+|                  |    |       | Signal              |       |
++------------------+    |       |                     |       |
+                        |       +---------------------+       |
+                        |                                     |
+                        +-------------------------------------+
+```
+
+Connection Details:
+------------------
+
+1. Raspberry Pi Connections:
+   - GPIO pins 17, 18, 22, 23 connect to IN1, IN2, IN3, IN4 of L298N motor driver
+   - GPIO pins 24, 25 connect to TRIG, ECHO of front ultrasonic sensor
+   - GPIO pins 27, 4 connect to TRIG, ECHO of rear ultrasonic sensor
+   - GPIO pin 12 connects to signal pin of servo motor (for seed dispenser)
+   - 5V pin connects to VCC of ultrasonic sensors and servo
+   - GND pin connects to GND of all components
+   - Camera module connects to camera interface
+
+2. L298N Motor Driver Connections:
+   - IN1, IN2, IN3, IN4 connect to Raspberry Pi GPIO pins as listed above
+   - OUT1, OUT2 connect to left motor
+   - OUT3, OUT4 connect to right motor
+   - 12V connects to battery positive terminal
+   - GND connects to battery negative terminal and Raspberry Pi GND
+
+3. Ultrasonic Sensor Connections:
+   - VCC connects to Raspberry Pi 5V
+   - GND connects to Raspberry Pi GND
+   - TRIG, ECHO connect to Raspberry Pi GPIO pins as listed above
+
+4. Servo Motor (Seed Dispenser) Connections:
+   - Signal pin connects to Raspberry Pi GPIO pin 12
+   - VCC connects to 5V
+   - GND connects to GND
+
+5. Power Management:
+   - Main control system: 5V USB power adapter or power bank
+   - Motors: 12V LiPo battery
+
+Notes:
+- All GND connections should be common
+- Use appropriate voltage regulators where needed
+- Add capacitors near motors to reduce noise
+- Consider adding fuses for safety
+- Water-resistant enclosures should be used for outdoor components

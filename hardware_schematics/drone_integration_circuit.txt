@@ -1,0 +1,127 @@
+Drone Integration Circuit Diagram
+===============================
+
+```
+                                 +---------------------+
+                                 |                     |
+                                 |    Flight Controller|
+                                 |    (e.g., Pixhawk)  |
++------------------+             |                     |
+|                  |             |                     |
+| LiPo Battery     |----+-------|Power            GND |-------+
+| (11.1V/14.8V)    |    |       |                     |       |
++------------------+    |       | UART TX        UART RX|     |
+                        |       | I2C SDA        I2C SCL|     |
+                        |       | PWM Out (1-8)        |       |
+                        |       |                     |       |
+                        |       +---------------------+       |
+                        |                                     |
+                        |                                     |
++------------------+    |       +---------------------+       |
+|                  |    |       |                     |       |
+| ESC 1 (Motor 1)  |    +-------|Power            GND |-------+
+|                  |            |                     |       |
+|                  |------------|Signal               |       |
++------------------+            |                     |       |
+                                +---------------------+       |
+                                                              |
+                                        ...                   |
+                                                              |
++------------------+            +---------------------+       |
+|                  |            |                     |       |
+| ESC 4 (Motor 4)  |    +-------|Power            GND |-------+
+|                  |    |       |                     |       |
+|                  |------------|Signal               |       |
++------------------+            |                     |       |
+                                +---------------------+       |
+                                                              |
+                                +---------------------+       |
+                                |                     |       |
++------------------+            |    Raspberry Pi     |       |
+|                  |            |    Zero W           |       |
+| 5V BEC/Regulator |----+-------|5V               GND |-------+
+|                  |    |       |                     |       |
++------------------+    |       | UART TX        UART RX|     |
+                        |       | GPIO Pins           |       |
+                        |       | CSI Camera Port     |       |
+                        |       |                     |       |
+                        |       +---------------------+       |
+                        |                                     |
+                        |                                     |
++------------------+    |       +---------------------+       |
+|                  |    |       |                     |       |
+| Thermal Camera   |    +-------|Power            GND |-------+
+| Module           |            |                     |       |
+| (e.g., FLIR Lepton)|----------|SPI/I2C Interface   |       |
++------------------+            |                     |       |
+                                +---------------------+       |
+                                                              |
++------------------+            +---------------------+       |
+|                  |            |                     |       |
+| GPS Module       |    +-------|VCC              GND |-------+
+|                  |    |       |                     |       |
+|                  |------------|TX                RX |       |
++------------------+            |                     |       |
+                                +---------------------+       |
+                                                              |
++------------------+            +---------------------+       |
+|                  |            |                     |       |
+| Telemetry Radio  |    +-------|VCC              GND |-------+
+| (433/915 MHz)    |    |       |                     |
+|                  |------------|TX                RX |
++------------------+            |                     |
+                                +---------------------+
+```
+
+Connection Details:
+------------------
+
+1. Flight Controller Connections:
+   - Power input from LiPo battery (via power distribution board)
+   - UART TX/RX connects to Raspberry Pi for communication
+   - PWM outputs connect to ESCs for motor control
+   - I2C connects to sensors (barometer, compass, etc.)
+
+2. ESC and Motor Connections:
+   - Power input from LiPo battery
+   - Signal input from flight controller PWM outputs
+   - Output to brushless motors
+
+3. Raspberry Pi Zero W Connections:
+   - Power from 5V BEC/regulator
+   - UART TX/RX connects to flight controller
+   - CSI port connects to camera module
+   - SPI/I2C connects to thermal camera module
+   - GPIO pins for additional sensors/controls
+
+4. Thermal Camera Module:
+   - Power from Raspberry Pi 5V
+   - SPI/I2C interface connects to Raspberry Pi
+
+5. GPS Module:
+   - VCC connects to flight controller or Raspberry Pi
+   - TX/RX connects to flight controller for navigation
+
+6. Telemetry Radio:
+   - VCC connects to flight controller or Raspberry Pi
+   - TX/RX connects to flight controller for remote communication
+
+7. Power Management:
+   - Main power: 11.1V or 14.8V LiPo battery
+   - 5V BEC/regulator for Raspberry Pi and low-voltage components
+
+Data Flow:
+---------
+1. Thermal camera captures field images
+2. Raspberry Pi processes images to detect moisture stress/plant health
+3. Data is sent to ground station via telemetry radio
+4. GPS provides location data for mapping detected issues
+5. Flight controller manages drone flight path based on waypoints
+
+Notes:
+-----
+- Use proper power isolation to prevent interference
+- Shield sensitive components from motor noise
+- Ensure proper cooling for processing components
+- Weatherproof all connections for outdoor use
+- Add failsafe mechanisms for emergency situations

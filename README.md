@@ -36,7 +36,29 @@ BhoomiMitra is a comprehensive smart agriculture system that integrates IoT-base
 
 ## 🧠 System Architecture
 
-### 1. Soil Moisture Monitoring & Irrigation Control
+![BhoomiMitra System Architecture](media/project_images/system_architecture.jpg)
+
+The BhoomiMitra system is organized into three main layers:
+
+### 1. Sensing Layer
+- Drone for aerial data collection
+- Satellite for mapping and positioning
+- Microcontroller receiving data and commands
+
+### 2. Data & Control Layer
+- Microcontroller processing sensor data
+- Soil Moisture Sensors monitoring plant needs
+- Water Pump activation based on moisture thresholds
+- Robot control systems for coordinated operation
+
+### 3. Action Layer
+- Leader Robot for seed planting
+- Follower Robot 1 (Verifier) for seed verification
+- Follower Robot 2 (Fixer) for correcting planting errors
+
+### Detailed Component Functionality
+
+#### Soil Moisture Monitoring & Irrigation Control
 
 - Each capacitive sensor is connected to an analog pin of the ESP32
 - The ESP32 processes moisture data and checks it against a threshold (e.g., 30%)
@@ -44,18 +66,31 @@ BhoomiMitra is a comprehensive smart agriculture system that integrates IoT-base
 - Pump irrigates the plant for a defined time/duration
 - All sensor readings and actions are logged to Firebase/ThingSpeak for visualization
 
-### 2. Swarm Robots Functionality
+#### Swarm Robots Functionality
 
 - **Leader Bot**: Plants the seeds at pre-defined GPS/mapped points
 - **Verifier Bot**: Follows and scans seed placements using camera and CV
 - **Fixer Bot**: Re-plants or corrects errors detected by Verifier
 - Communication between robots using WiFi mesh or ESP-NOW protocol
 
-### 3. Aerial Drone Surveillance
+#### Aerial Drone Surveillance
 
 - Drone flies over field collecting thermal and visual data
 - Data processed via AI to detect moisture-stressed zones and diseases
 - Positions relayed to the central server for attention
+
+## 📝 Circuit Diagrams
+
+The project includes detailed circuit diagrams for all major components:
+
+### ESP32 Irrigation System
+Detailed connections between the ESP32, soil moisture sensors, relay module, and water pumps. See the [ESP32 Irrigation Circuit](hardware_schematics/esp32_soil_moisture_circuit.txt) for complete wiring details.
+
+### Swarm Robots
+Circuit diagram for the Leader, Verifier, and Fixer robots, including motor drivers, sensors, and communication modules. See the [Swarm Robot Circuit](hardware_schematics/swarm_robot_circuit.txt) for complete wiring details.
+
+### Drone Integration
+Connections for the drone components including flight controller, thermal camera, and communication systems. See the [Drone Integration Circuit](hardware_schematics/drone_integration_circuit.txt) for complete wiring details.
 
 ## 🚀 Getting Started
 
@@ -70,7 +105,7 @@ BhoomiMitra is a comprehensive smart agriculture system that integrates IoT-base
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/BhoomiMitra.git
+   git clone https://github.com/emphaticHarp/BhoomiMitra.git
    ```
 
 2. Install required libraries for Arduino:
@@ -95,7 +130,10 @@ BhoomiMitra is a comprehensive smart agriculture system that integrates IoT-base
 BhoomiMitra/
 ├── README.md
 ├── hardware_schematics/
-│   └── circuit_diagrams.png
+│   ├── circuit_diagrams.txt
+│   ├── esp32_soil_moisture_circuit.txt
+│   ├── swarm_robot_circuit.txt
+│   └── drone_integration_circuit.txt
 ├── code/
 │   ├── esp32_irrigation/
 │   │   └── esp32_irrigation.ino
@@ -110,6 +148,8 @@ BhoomiMitra/
 │   └── BhoomiMitra_Technical_Report.pdf
 ├── media/
 │   └── project_images/
+│       └── system_architecture_diagram.txt
+├── requirements.txt
 └── LICENSE
 ```
 

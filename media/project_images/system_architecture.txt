@@ -1,0 +1,21 @@
+This is a placeholder for the system architecture diagram that was shared. 
+
+The image shows a comprehensive Smart Agricultural System architecture with:
+
+1. Sensing Layer:
+   - Drone for aerial data collection
+   - Satellite for mapping
+   - Microcontroller receiving data and commands
+
+2. Data & Control Layer:
+   - Microcontroller
+   - Soil Moisture Sensors
+   - Water Pump
+   - Robot control systems
+
+3. Action Layer:
+   - Leader Robot
+   - Follower Robot 1 (Verifier)
+   - Follower Robot 2 (Fixer)
+
+The diagram illustrates data flow between components and hierarchical system organization.

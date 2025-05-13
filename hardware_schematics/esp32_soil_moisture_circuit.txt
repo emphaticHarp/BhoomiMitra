@@ -1,0 +1,120 @@
+ESP32 + Soil Moisture Sensors + Relay Module Circuit
+==================================================
+
+```
+                                 +---------------------+
+                                 |                     |
+                                 |       ESP32         |
+                                 |                     |
++------------------+             |                     |
+|                  |             |                     |
+| 5V Power Supply  |----+-------|3.3V             GND |-------+
+|                  |    |       |                     |       |
++------------------+    |       |                     |       |
+                        |       |                     |       |
+                        |       | GPIO34         GPIO23 |     |
+                        |       | GPIO35         GPIO22 |     |
+                        |       | GPIO32         GPIO21 |     |
+                        |       | GPIO33         GPIO19 |     |
+                        |       | GPIO25         GPIO18 |     |
+                        |       | GPIO26         GPIO5  |     |
+                        |       | GPIO27         GPIO4  |     |
+                        |       | GPIO14         GPIO2  |     |
+                        |       | GPIO12         GPIO15 |     |
+                        |       |                     |       |
+                        |       +---------------------+       |
+                        |                                     |
+                        |                                     |
++------------------+    |       +---------------------+       |
+|                  |    |       |                     |       |
+| Soil Moisture    |    +-------|VCC              GND |-------+
+| Sensor 1         |            |                     |
+|                  |------------|AO                   |
++------------------+            |                     |
+                                +---------------------+
+                                
+                                +---------------------+
+                                |                     |
++------------------+            |                     |
+|                  |            |                     |
+| Soil Moisture    |    +-------|VCC              GND |-------+
+| Sensor 2         |    |       |                     |       |
+|                  |------------|AO                   |       |
++------------------+            |                     |       |
+                                +---------------------+       |
+                                                              |
+                                        ...                   |
+                                                              |
+                                +---------------------+       |
+                                |                     |       |
++------------------+            |                     |       |
+|                  |    +-------|VCC              GND |-------+
+| Soil Moisture    |    |       |                     |
+| Sensor 9         |------------|AO                   |
+|                  |            |                     |
++------------------+            +---------------------+
+
+                                +---------------------+
+                                |                     |
+                                |    Relay Module     |
+                                |                     |
++------------------+            |                     |
+|                  |    +-------|VCC              GND |-------+
+| 12V Power Supply |    |       |                     |       |
+|                  |    |       |                     |       |
++------------------+    |       | IN1             COM1|---+   |
+                        |       | IN2             COM2|---+   |
+                        |       | IN3             COM3|---+   |
+                        |       | IN4             COM4|---+   |
+                        |       | IN5             COM5|---+   |
+                        |       | IN6             COM6|---+   |
+                        |       | IN7             COM7|---+   |
+                        |       | IN8             COM8|---+   |
+                        |       | IN9             COM9|---+   |
+                        |       |                     |   |   |
+                        |       +---------------------+   |   |
+                        |                                 |   |
+                        |                                 |   |
++------------------+    |       +---------------------+   |   |
+|                  |    |       |                     |   |   |
+| Water Pump 1     |    |       |                     |   |   |
+|                  |------------| +               -   |---+---+
++------------------+            |                     |       |
+                                +---------------------+       |
+                                                              |
+                                        ...                   |
+                                                              |
+                                +---------------------+       |
+                                |                     |       |
++------------------+            |                     |       |
+|                  |            |                     |       |
+| Water Pump 9     |------------| +               -   |-------+
+|                  |            |                     |
++------------------+            +---------------------+
+```
+
+Connection Details:
+------------------
+
+1. ESP32 Connections:
+   - 3.3V pin connects to VCC of all soil moisture sensors
+   - GND pin connects to GND of all soil moisture sensors and relay module
+   - GPIO pins 34, 35, 32, 33, 25, 26, 27, 14, 12 connect to AO (analog output) pins of the 9 soil moisture sensors
+   - GPIO pins 23, 22, 21, 19, 18, 5, 4, 2, 15 connect to IN1-IN9 pins of the relay module
+   - 5V pin connects to VCC of relay module
+
+2. Relay Module Connections:
+   - VCC connects to ESP32 5V
+   - GND connects to ESP32 GND
+   - IN1-IN9 connect to ESP32 GPIO pins as listed above
+   - COM1-COM9 connect to positive terminal of power supply
+   - NO1-NO9 (Normally Open) connect to positive terminal of each water pump
+
+3. Water Pump Connections:
+   - Positive terminal of each pump connects to corresponding NO terminal on relay
+   - Negative terminal of all pumps connect to negative terminal of power supply
+
+4. Power Supply:
+   - 5V/12V power supply positive terminal connects to relay COM terminals
+   - Power supply negative terminal connects to negative terminal of all pumps
+   - Separate 5V USB power supply for ESP32

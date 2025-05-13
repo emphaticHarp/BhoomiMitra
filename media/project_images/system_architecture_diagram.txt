@@ -1,0 +1,21 @@
+SMART AGRICULTURAL SYSTEM
+Soumyajyoti Banik
+
+[This file is a placeholder for the system architecture diagram image that shows the following components:]
+
+Sensing Layer:
+- Drone (providing Data to Microcontroller)
+- Satellite Mapping (providing Commands to Microcontroller)
+- Microcontroller (central processing unit)
+
+Data & Control Layer:
+- Microcontroller connected to:
+  - Soil Moisture Sensors with Water Pump
+  - Leader Robot, Follower Robot 1, Follower Robot 2
+
+Action Layer:
+- Leader Robot
+- Follower Robot 1
+- Follower Robot 2
+
+The diagram illustrates the hierarchical structure of the BhoomiMitra system with clear data flow between components across the three layers: Sensing Layer, Data & Control Layer, and Action Layer.
